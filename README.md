@@ -15,4 +15,4 @@ where segments are in seconds.
 #### 2. FFMPEG helper  
 Uses tot_seconds.py to convert arguments which are segments in mm:ss to seconds so that they can be used in ffmpeg.py.  
 ##### Usage
-`py ffmpeg_helper.py 10:20-11:30 11:55-32:22 ...`  
+`py helper_ffmpeg.py 10:20-11:30 11:55-32:22 ...`  
