@@ -40,14 +40,16 @@ def segment_reverser(cut_out_segments):
     
     
 def main():
+    if(len(sys.argv))<3:
+        print("Usage: ./ffmpeg.py input_file 10-45(remove this segment)")
+        sys.exit(-1)
+        
+        
     debugger_file = open('debugger_file.txt','w')
     input_file = '"' + sys.argv[1] + '"'
     my_cmd = "ffmpeg -i {}".format(input_file)
     additional_segment = " -ss {} -to {} {}"    #(start,end,output file)
-    if(len(sys.argv))<3:
-        print("./ffmpeg.py input_file 10-45(remove this segment)")
-        sys.exit(-1)
-        
+         
     
     ext = input_file.split('.')[-1][:-1]
     final_output_file = "final_output."+ext
