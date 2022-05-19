@@ -13,6 +13,12 @@ def arguments_converter(arguments):
 
     return result
 
+   
+def main():
+    if len(sys.argv) < 2:
+        print(f"Usage: python3 {__file__} 10:20-11:30 11:55-32:22 ...")
+    print(" ".join(arguments_converter(sys.argv[1:])))
+
 
 if __name__ == '__main__':
-    print(" ".join(arguments_converter(sys.argv[1:])))
+    main()
