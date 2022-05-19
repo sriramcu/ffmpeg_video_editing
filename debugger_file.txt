@@ -1,0 +1,1 @@
+[[0, 10], [11, 87]]ffmpeg -i "../endoscopic_quality_assessment/depthai_hand_tracker/input_videos/endoscopy_dataset_prediction_18_05_22_17_54_03.mkv" -ss 0 -to 10 interim_output1.mkv -ss 11 -to 87 interim_output2.mkv
