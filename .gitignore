@@ -2,3 +2,6 @@
 *.mp4
 *debug*
 *interim*
+/__pycache__
+*.pyc
+
