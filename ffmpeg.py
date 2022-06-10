@@ -65,7 +65,7 @@ def main():
 
         
     reversed_segments = segment_reverser(segments)
-    debugger_file.write(str(reversed_segments))
+    # debugger_file.write(str(reversed_segments))
     
     
     interim_videos_text_file = 'interim_output_videos.txt'
@@ -85,8 +85,10 @@ def main():
     files.close()
 
     debugger_file.write(full_ffmpeg_command)
+    debugger_file.close()
+
     os.system(full_ffmpeg_command)
-    time.sleep(5)
+    # time.sleep(5)
     
     os.system(f"ffmpeg -f concat -i {interim_videos_text_file} -c copy {final_output_file}")
 
