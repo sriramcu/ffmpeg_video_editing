@@ -5,12 +5,7 @@ import time
 
 from moviepy.editor import VideoFileClip
 
-def segment_reverser(cut_out_segments):
-
-    clip = VideoFileClip(sys.argv[1])
-    video_duration = int(clip.duration) + 1
-
-
+def segment_reverser(cut_out_segments, video_duration):
     correctness_checker = []
     for seg in cut_out_segments:
         correctness_checker.append(seg[0])
@@ -49,7 +44,7 @@ def main():
     
     input_video_file = f'"{sys.argv[1]}"'
     
-    full_ffmpeg_command = f'ffmpeg -i {input_video_file}'
+    full_ffmpeg_command = f'ffmpeg -i {input_video_file} -c copy'
     
              
     input_video_extension = input_video_file.split('.')[-1][:-1]
@@ -63,18 +58,20 @@ def main():
         segment = list(map(int,sys.argv[i].split('-')))
         segments.append(segment)
 
-        
-    reversed_segments = segment_reverser(segments)
-    # debugger_file.write(str(reversed_segments))
+    clip = VideoFileClip(input_video_file)
+    video_duration = int(clip.duration) + 1
+
+    segments = segment_reverser(segments, video_duration)
+    debugger_file.write(str(reversed_segments))
     
     
     interim_videos_text_file = 'interim_output_videos.txt'
     files = open(interim_videos_text_file, 'w')
     ctr = 1
     interim_files_list = []
-    for segment in reversed_segments:
-        segment_removal_sub_command = f' -ss {segment[0]} -to {segment[1]} interim_output{ctr}.{input_video_extension}'
-        full_ffmpeg_command = full_ffmpeg_command + segment_removal_sub_command
+    for segment in segments:
+        segment_extraction_sub_command = f' -ss {segment[0]} -to {segment[1]} interim_output{ctr}.{input_video_extension}'
+        full_ffmpeg_command = full_ffmpeg_command + segment_extraction_sub_command
         
         interim_file_name = f"interim_output{ctr}.{input_video_extension}"
         files.write(f"file '{interim_file_name}'\n")
