@@ -62,7 +62,7 @@ def main():
     video_duration = int(clip.duration) + 1
 
     segments = segment_reverser(segments, video_duration)
-    debugger_file.write(str(reversed_segments))
+    debugger_file.write(str(segments))
     
     
     interim_videos_text_file = 'interim_output_videos.txt'
