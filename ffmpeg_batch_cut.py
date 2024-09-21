@@ -1,8 +1,11 @@
 import os
 import sys
 import time
+import argparse
 
 from moviepy.editor import VideoFileClip
+
+import utils
 
 
 def segment_reverser(cut_out_segments, video_duration):
@@ -13,6 +16,8 @@ def segment_reverser(cut_out_segments, video_duration):
 
     if sorted(correctness_checker) != correctness_checker or correctness_checker[-1] > video_duration or len(
             correctness_checker) != len(set(correctness_checker)):
+        # Checks if the segments are in the correct order, the highest segment is less than the duration of the video,
+        # and that there are no duplicates
         print("Improper cut out segments")
         sys.exit(-1)
 
@@ -36,26 +41,38 @@ def segment_reverser(cut_out_segments, video_duration):
 
 
 def main():
-    if (len(sys.argv)) < 3:
-        print(f"Usage: python3 {__file__} input_file 10-45(remove this segment)")
-        sys.exit(-1)
-
-    debugger_file = open('generated_text_files/debugger_file.txt', 'w')
-    input_video_file = f'"{sys.argv[1]}"'
-    full_ffmpeg_command = f'ffmpeg -i {input_video_file} -c copy'
-
-    input_video_extension = input_video_file.split('.')[-1][:-1]
-    final_output_file = f"final_output.{input_video_extension}"
+    parser = argparse.ArgumentParser(description='Cut out segments from a video file')
+    parser.add_argument('-i', '--input_file', type=str, help='Input video file', required=True)
+    parser.add_argument('-s', '--segments', type=str, nargs='+', help='Segments to cut out in the format \"0:10-1:05\"', required=False)
+    parser.add_argument('-ss', '--segments_seconds', type=str, nargs='+', help='Segments to cut out in the format \"10-65\"', required=False)
+    args = parser.parse_args()
+    flag1 = False
+    flag2 = False
     segments = []
-    segment = list(map(int, sys.argv[2].split('-')))
-    segments.append(segment)
+    if args.segments:
+        flag1 = True
+        segments = utils.time_intervals_converter(args.segments)
+    if args.segments_seconds:
+        flag2 = True
+        segments = args.segments_seconds
 
-    for i in range(3, len(sys.argv)):
-        segment = list(map(int, sys.argv[i].split('-')))
-        segments.append(segment)
+    if flag1 == flag2 or segments == []:
+        raise ValueError("Exactly one of -s or -ss must be specified")
 
-    clip = VideoFileClip(input_video_file)
+    segments = [list(map(int, seg.split('-'))) for seg in segments]
+    print(segments)
+    debugger_file_name = os.path.join("generated_text_files", "debugger_file.txt")
+    debugger_file = open(debugger_file_name, 'w')
+    input_video_file = f'"{args.input_file}"' # encloses input file in double quotes
+    full_ffmpeg_command = f'ffmpeg -i {input_video_file} -c copy'
+    # initial variable that will be appended to during the for loop iterating over the reversed segments
+
+    input_video_extension = input_video_file.split('.')[-1][:-1]  # without the '.'
+    final_output_file = f"final_output.{input_video_extension}"
+
+    clip = VideoFileClip(args.input_file)
     video_duration = int(clip.duration) + 1
+    print(video_duration, segments)
     segments = segment_reverser(segments, video_duration)
     debugger_file.write(str(segments))
 
@@ -64,13 +81,9 @@ def main():
     ctr = 1
     interim_files_list = []
     for segment in segments:
-        segment_extraction_sub_command = f' -ss {segment[0]} -to {segment[1]} interim_output{ctr}.{input_video_extension}'
-        full_ffmpeg_command = full_ffmpeg_command + segment_extraction_sub_command
-        interim_cmd = full_ffmpeg_command + segment_extraction_sub_command
-        print(interim_cmd)
-        os.system(interim_cmd)
-
         interim_file_name = f"interim_output{ctr}.{input_video_extension}"
+        segment_extraction_sub_command = f' -ss {segment[0]} -to {segment[1]} {interim_file_name}'
+        full_ffmpeg_command = full_ffmpeg_command + segment_extraction_sub_command
         files.write(f"file '{interim_file_name}'\n")
         interim_files_list.append(interim_file_name)
         ctr += 1
@@ -84,7 +97,8 @@ def main():
     os.system(full_ffmpeg_command)
     time.sleep(5)
 
-    os.system(f"ffmpeg -f concat -i {interim_videos_text_file} -c copy {final_output_file}")
+    concat_command = f"ffmpeg -f concat -i {interim_videos_text_file} -c copy {final_output_file}"
+    os.system(concat_command)
     for interim_video_file in interim_files_list:
         os.remove(interim_video_file)
     os.remove(interim_videos_text_file)
