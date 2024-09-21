@@ -45,6 +45,7 @@ def main():
     parser.add_argument('-i', '--input_file', type=str, help='Input video file', required=True)
     parser.add_argument('-s', '--segments', type=str, nargs='+', help='Segments to cut out in the format \"0:10-1:05\"', required=False)
     parser.add_argument('-ss', '--segments_seconds', type=str, nargs='+', help='Segments to cut out in the format \"10-65\"', required=False)
+    parser.add_argument('-o', '--output_file', type=str, help='Output video file location', required=False)
     args = parser.parse_args()
     flag1 = False
     flag2 = False
@@ -68,11 +69,13 @@ def main():
     # initial variable that will be appended to during the for loop iterating over the reversed segments
 
     input_video_extension = input_video_file.split('.')[-1][:-1]  # without the '.'
-    final_output_file = f"final_output.{input_video_extension}"
+    if not args.output_file:
+        final_output_file = f"final_output.{input_video_extension}"
+    else:
+        final_output_file = args.output_file
 
     clip = VideoFileClip(args.input_file)
     video_duration = int(clip.duration) + 1
-    print(video_duration, segments)
     segments = segment_reverser(segments, video_duration)
     debugger_file.write(str(segments))
 

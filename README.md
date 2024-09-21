@@ -9,9 +9,19 @@ Cut multiple segments off any video with just one command.
 
 ## Usage  
 
-`python3 ffmpeg_batch_cut.py -i <input_file> -ss 10-45 100-125 (remove these segments)`
+`python ffmpeg_batch_cut.py -i <input_file> -ss 10-45 100-125 (remove these segments)`
 
 **OR**
 
-`python3 ffmpeg_batch_cut.py -i <input_file> -s 00:10-00:45 01:40-02:05 (remove these 
+`python ffmpeg_batch_cut.py -i <input_file> -s 00:10-00:45 01:40-02:05 (remove these 
 segments)`
+
+Above usage (-s) supports MM:SS as well as HH:MM:SS
+
+### Output Video
+
+Output video will be saved in `final_output.mp4` in the current working directory, 
+from where this script was run. This can be changed by using -o flag.
+
+`python ffmpeg_batch_cut.py -i <input_file> -s 00:10-00:45 01:40-02:05 (remove these 
+segments) -f path/to/output.mp4`
