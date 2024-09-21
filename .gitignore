@@ -4,4 +4,4 @@
 *interim*
 /__pycache__
 *.pyc
-
+generated_text_files/*

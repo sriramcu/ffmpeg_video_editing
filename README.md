@@ -1,4 +1,4 @@
-# ffmpeg_video_editing
+# FFMPEG cut multiple segments simultaneously
 Easy and convenient way of cutting videos using ffmpeg.  
 Cut multiple segments off any video with just one command.
 
