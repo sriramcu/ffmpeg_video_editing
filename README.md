@@ -16,6 +16,10 @@ section:
 
 
 
+https://github.com/user-attachments/assets/2e745be6-0d68-4289-9ba3-b10fd5acaac7
+
+
+
 ## Usage- CLI
 
 `python ffmpeg_batch_cut.py -i <input_file> -ss 10-45 100-125 (remove these segments)`
