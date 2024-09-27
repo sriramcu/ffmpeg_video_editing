@@ -7,7 +7,7 @@ from moviepy.editor import VideoFileClip
 import utils
 
 
-def check_segment_correctness(cut_out_segments, video_duration):
+def check_segment_correctness(cut_out_segments: list[list[int]], video_duration):
     correctness_checker = []
     for seg in cut_out_segments:
         correctness_checker.append(seg[0])
@@ -17,7 +17,7 @@ def check_segment_correctness(cut_out_segments, video_duration):
             correctness_checker) != len(set(correctness_checker)):
         # Checks if the segments are in the correct order, the highest segment is less than the duration of the video,
         # and that there are no duplicates
-        raise ValueError("Improper cut out segments")
+        raise ValueError("Improper cut out segments " + str(cut_out_segments))
 
 
 def segment_reverser(cut_out_segments, video_duration):
@@ -41,7 +41,7 @@ def segment_reverser(cut_out_segments, video_duration):
     return reversed_segments
 
 
-def ffmpeg_batch_cut(segments, args_input_file, args_output_file):
+def ffmpeg_batch_cut(segments: list[list[int]], args_input_file, args_output_file):
     debugger_file_name = os.path.join("generated_text_files", "debugger_file.txt")
     debugger_file = open(debugger_file_name, 'w')
     input_video_file = f'"{args_input_file}"'  # encloses input file in double quotes

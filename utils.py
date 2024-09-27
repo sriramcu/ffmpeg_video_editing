@@ -4,7 +4,7 @@ import datetime
 
 import re
 
-def time_intervals_converter(time_intervals) -> list:
+def time_intervals_converter(time_intervals: list) -> list:
     """
     Parameters:
     -----------

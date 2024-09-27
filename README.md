@@ -7,7 +7,16 @@ Cut multiple segments off any video with just one command.
 1. Install FFMPEG
 2. `pip install -r requirements.txt`
 
-## Usage  
+## Usage- GUI
+
+`python ffmpeg_batch_cut_gui.py`
+
+Observe the demo video to see the usage. The demo video would be identical to that of the exe in the RELEASES 
+section:
+
+
+
+## Usage- CLI
 
 `python ffmpeg_batch_cut.py -i <input_file> -ss 10-45 100-125 (remove these segments)`
 
