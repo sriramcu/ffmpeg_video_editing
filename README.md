@@ -11,8 +11,7 @@ Cut multiple segments off any video with just one command.
 
 `python ffmpeg_batch_cut_gui.py`
 
-Observe the demo video to see the usage. The demo video would be identical to that of the exe in the RELEASES 
-section:
+Observe the demo video to see the usage:
 
 
 
