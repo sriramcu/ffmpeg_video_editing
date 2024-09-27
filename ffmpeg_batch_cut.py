@@ -1,7 +1,6 @@
-import os
-import sys
-import time
 import argparse
+import os
+import time
 
 from moviepy.editor import VideoFileClip
 
@@ -92,8 +91,10 @@ def ffmpeg_batch_cut(segments, args_input_file, args_output_file):
 def main():
     parser = argparse.ArgumentParser(description='Cut out segments from a video file')
     parser.add_argument('-i', '--input_file', type=str, help='Input video file', required=True)
-    parser.add_argument('-s', '--segments', type=str, nargs='+', help='Segments to cut out in the format \"0:10-1:05\"', required=False)
-    parser.add_argument('-ss', '--segments_seconds', type=str, nargs='+', help='Segments to cut out in the format \"10-65\"', required=False)
+    parser.add_argument('-s', '--segments', type=str, nargs='+', help='Segments to cut out in the format \"0:10-1:05\"',
+                        required=False)
+    parser.add_argument('-ss', '--segments_seconds', type=str, nargs='+',
+                        help='Segments to cut out in the format \"10-65\"', required=False)
     parser.add_argument('-o', '--output_file', type=str, help='Output video file location', required=False)
     args = parser.parse_args()
     flag1 = False
