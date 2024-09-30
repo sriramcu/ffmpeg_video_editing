@@ -7,9 +7,9 @@ from moviepy.editor import VideoFileClip
 import utils
 
 
-def check_segment_correctness(cut_out_segments: list[list[int]], video_duration):
+def check_segment_correctness(to_be_removed_segments: list[list[int]], video_duration):
     correctness_checker = []
-    for seg in cut_out_segments:
+    for seg in to_be_removed_segments:
         correctness_checker.append(seg[0])
         correctness_checker.append(seg[1])
 
@@ -17,26 +17,26 @@ def check_segment_correctness(cut_out_segments: list[list[int]], video_duration)
             correctness_checker) != len(set(correctness_checker)):
         # Checks if the segments are in the correct order, the highest segment is less than the duration of the video,
         # and that there are no duplicates
-        raise ValueError("Improper cut out segments " + str(cut_out_segments))
+        raise ValueError("Improper removal segments " + str(to_be_removed_segments))
 
 
-def segment_reverser(cut_out_segments, video_duration):
+def segment_reverser(to_be_removed_segments, video_duration):
     """
-    Converts segments cut out from the video to segments of the video to be preserved
+    Converts segments to be removed from the video to segments of the video to be preserved
     """
     reversed_segments = []
     position = 0
-    if cut_out_segments[0][0] == 0:
-        position = cut_out_segments[0][1]
-        del cut_out_segments[0]
-    for i in range(len(cut_out_segments)):
+    if to_be_removed_segments[0][0] == 0:
+        position = to_be_removed_segments[0][1]
+        del to_be_removed_segments[0]
+    for i in range(len(to_be_removed_segments)):
 
-        if position != cut_out_segments[i][0]:
-            reversed_segments.append([position, cut_out_segments[i][0]])
-        if (i + 1) < len(cut_out_segments):
-            reversed_segments.append([cut_out_segments[i][1], cut_out_segments[i + 1][0]])
+        if position != to_be_removed_segments[i][0]:
+            reversed_segments.append([position, to_be_removed_segments[i][0]])
+        if (i + 1) < len(to_be_removed_segments):
+            reversed_segments.append([to_be_removed_segments[i][1], to_be_removed_segments[i + 1][0]])
         else:
-            reversed_segments.append([cut_out_segments[i][1], video_duration])
+            reversed_segments.append([to_be_removed_segments[i][1], video_duration])
         position = reversed_segments[-1][-1]
     return reversed_segments
 
@@ -90,12 +90,12 @@ def ffmpeg_batch_cut(segments: list[list[int]], input_file_path, output_file_pat
 
 
 def main():
-    parser = argparse.ArgumentParser(description='Cut out segments from a video file')
+    parser = argparse.ArgumentParser(description='Remove segments from a video file')
     parser.add_argument('-i', '--input_file', type=str, help='Input video file', required=True)
-    parser.add_argument('-s', '--segments', type=str, nargs='+', help='Segments to cut out in the format \"0:10-1:05\"',
+    parser.add_argument('-s', '--segments', type=str, nargs='+', help='Segments to remove in the format \"0:10-1:05\"',
                         required=False)
     parser.add_argument('-ss', '--segments_seconds', type=str, nargs='+',
-                        help='Segments to cut out in the format \"10-65\"', required=False)
+                        help='Segments to remove in the format \"10-65\"', required=False)
     parser.add_argument('-o', '--output_file', type=str, help='Output video file location', required=False)
     args = parser.parse_args()
     flag1 = False

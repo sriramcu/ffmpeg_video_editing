@@ -113,7 +113,7 @@ class FFMpegBatchCutGUI:
         picker for the Input File. Then click on "browse" for Output File. In the popup window, select the folder and then
         type the name of the output file. Click on "save". The full input and output file paths will be displayed in the
         text fields. You could also directly copy paste the paths for these into the text fields.
-        * Then provide undesired segments to cut out or remove from the input video file in the format '10-65 100-120' 
+        * Then provide undesired segments to be removed from the input video file in the format '10-65 100-120' 
         or '0:10-1:05 1:40-2:00' (space-separated). The first format corresponds to the "Segments (seconds)" mode 
         selected in the "Mode" dropdown menu in the GUI. The second format corresponds to the "Segments (HH:MM:SS)" mode 
         selected in this dropdown element.
