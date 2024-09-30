@@ -81,7 +81,7 @@ This is because there is no re-encoding with this technique. However, due to thi
 experience a loss in keyframes and/or choppy videos, depending on the encoding and format of your original file.
 You could try re-encoding the output to make it smooth, while saving time on re-encoding undesired segments cut 
 out by this tool. Do not use this tool if you need to trim in a precise manner, i.e. down to the last 
-millisecond. I would recommend you to *check the final output before deleting the original*. 
+millisecond. I would recommend you to **check the final output before deleting the original**. 
 
 The StackOverflow answers and comments on 
 [this link](https://stackoverflow.com/questions/18444194/cutting-multimedia-files-based-on-start-and-end-time-using-ffmpeg) 
