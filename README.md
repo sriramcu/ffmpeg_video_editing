@@ -1,6 +1,6 @@
-# FFMPEG cut multiple segments simultaneously
+# FFMPEG remove multiple segments simultaneously
 
-Cut multiple segments off any video with just one command.  
+Remove multiple segments from any video with just one command.  
 
 FFMPEG command easily supports **keeping** a section of a video using the `-ss` and `-to` tags. But to do the 
 reverse, i.e. **removing** certain portions of your video is a bit trickier. You need to first create a text 
@@ -64,8 +64,8 @@ Above usage (-s) supports MM:SS as well as HH:MM:SS
 #### Required Arguments
 * -i, --input_file: Input video file path (required)
 #### Optional Arguments
-* -s, --segments: Segments to cut out in the format "0:10-1:05" (HH:MM-SS), space-separated (optional)
-* -ss, --segments_seconds: Segments to cut out in the format "10-65" (seconds) space-separated (optional)
+* -s, --segments: Segments to remove in the format "0:10-1:05" (HH:MM-SS), space-separated (optional)
+* -ss, --segments_seconds: Segments to remove in the format "10-65" (seconds) space-separated (optional)
 * -o, --output_file: Output video file location (optional)
 
 By default, the output video will be saved as `final_output.mp4` in the current working directory, i.e. 
@@ -79,8 +79,8 @@ segments) -f path/to/output.mp4`
 This program is very fast, and can operate on a 10 minute video within 30 seconds, depending on your system. 
 This is because there is no re-encoding with this technique. However, due to this very reason, you may 
 experience a loss in keyframes and/or choppy videos, depending on the encoding and format of your original file.
-You could try re-encoding the output to make it smooth, while saving time on re-encoding undesired segments cut 
-out by this tool. Do not use this tool if you need to trim in a precise manner, i.e. down to the last 
+You could try re-encoding the output to make it smooth, while saving time on re-encoding undesired segments removed 
+by this tool. Do not use this tool if you need to trim in a precise manner, i.e. down to the last 
 millisecond. I would recommend you to **check the final output before deleting the original**. 
 
 The StackOverflow answers and comments on 
