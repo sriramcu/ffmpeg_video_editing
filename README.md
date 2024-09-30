@@ -81,7 +81,7 @@ Above usage (-s) supports MM:SS as well as HH:MM:SS
 * -o, --output_file: Output video file location (optional)
 
 By default, the output video will be saved as `final_output.mp4` in the current working directory, i.e. 
-from where this script was run. This can be changed by using thr `-o` flag.
+from where this script was run. This can be changed by using the `-o` flag.
 
 `python ffmpeg_batch_cut.py -i <input_file> -s 00:10-00:45 01:40-02:05 (remove these 
 segments) -f path/to/output.mp4`
