@@ -41,20 +41,21 @@ def segment_reverser(cut_out_segments, video_duration):
     return reversed_segments
 
 
-def ffmpeg_batch_cut(segments: list[list[int]], args_input_file, args_output_file):
-    debugger_file_name = os.path.join("generated_text_files", "debugger_file.txt")
-    debugger_file = open(debugger_file_name, 'w')
-    input_video_file = f'"{args_input_file}"'  # encloses input file in double quotes
-    full_ffmpeg_command = f'ffmpeg -i {input_video_file} -c copy'
+def ffmpeg_batch_cut(segments: list[list[int]], input_file_path, output_file_path):
+    input_file_path = os.path.abspath(input_file_path)
+    debugger_folder_path = os.path.join(os.path.dirname(input_file_path), "generated_text_files")
+    os.makedirs(debugger_folder_path, exist_ok=True)
+    debugger_file_path = os.path.join(debugger_folder_path, "debugger_file.txt")
+    debugger_file = open(debugger_file_path, 'w')
+    full_ffmpeg_command = f'ffmpeg -i "{input_file_path}" -c copy'
     # initial variable that will be appended to during the for loop iterating over the reversed segments
 
-    input_video_extension = input_video_file.split('.')[-1][:-1]  # without the '.'
-    if not args_output_file:
-        final_output_file = f"final_output.{input_video_extension}"
-    else:
-        final_output_file = args_output_file
+    input_video_extension = input_file_path.split('.')[-1].strip()  # without the '.'
+    if not output_file_path:
+        output_file_path = f"final_output.{input_video_extension}"
 
-    clip = VideoFileClip(args_input_file)
+    output_file_path = os.path.abspath(output_file_path)
+    clip = VideoFileClip(input_file_path)
     video_duration = int(clip.duration) + 1
     check_segment_correctness(segments, video_duration)
     segments = segment_reverser(segments, video_duration)
@@ -81,7 +82,7 @@ def ffmpeg_batch_cut(segments: list[list[int]], args_input_file, args_output_fil
     os.system(full_ffmpeg_command)
     time.sleep(5)
 
-    concat_command = f"ffmpeg -f concat -i {interim_videos_text_file} -c copy {final_output_file}"
+    concat_command = f'ffmpeg -f concat -i {interim_videos_text_file} -c copy "{output_file_path}"'
     os.system(concat_command)
     for interim_video_file in interim_files_list:
         os.remove(interim_video_file)

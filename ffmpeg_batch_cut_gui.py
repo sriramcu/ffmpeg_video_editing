@@ -1,6 +1,7 @@
+import re
 import sys
 import tkinter as tk
-from tkinter import filedialog, messagebox, scrolledtext
+from tkinter import filedialog, messagebox, scrolledtext, font
 
 from moviepy.editor import VideoFileClip
 
@@ -107,8 +108,22 @@ class FFMpegBatchCutGUI:
             self.log_text.insert(tk.END, f"Error processing/reading video: {str(e)}\n", "error")
 
     def show_help(self):
-        messagebox.showinfo("Help", "This tool cuts videos based on input segments.\n"
-                                    "Provide segments in format '10-65 100-120' or '0:10-1:05 1:40-2:00' (space-separated).")
+        help_message = """
+        This tool cuts videos based on input segments. First select the video file you want to cut using the "browse" file
+        picker for the Input File. Then click on "browse" for Output File. In the popup window, select the folder and then
+        type the name of the output file. Click on "save". The full input and output file paths will be displayed in the
+        text fields. You could also directly copy paste the paths for these into the text fields.
+        * Then provide undesired segments to cut out or remove from the input video file in the format '10-65 100-120' 
+        or '0:10-1:05 1:40-2:00' (space-separated). The first format corresponds to the "Segments (seconds)" mode 
+        selected in the "Mode" dropdown menu in the GUI. The second format corresponds to the "Segments (HH:MM:SS)" mode 
+        selected in this dropdown element.
+        """
+        help_message = help_message.replace("\n", " ")
+        help_message = help_message.replace("\t", " ")
+        help_message = help_message.replace("*", "\n\n")
+        help_message = re.sub(' +', ' ', help_message)
+
+        messagebox.showinfo("Help", help_message)
 
 
 def main():
