@@ -26,9 +26,9 @@ def segment_reverser(to_be_removed_segments, video_duration):
     """
     reversed_segments = []
     position = 0
-    if to_be_removed_segments[0][0] == 0:
+    if to_be_removed_segments and to_be_removed_segments[0][0] == 0:
         position = to_be_removed_segments[0][1]
-        del to_be_removed_segments[0]
+        to_be_removed_segments = to_be_removed_segments[1:]
     for i in range(len(to_be_removed_segments)):
 
         if position != to_be_removed_segments[i][0]:
@@ -38,6 +38,9 @@ def segment_reverser(to_be_removed_segments, video_duration):
         else:
             reversed_segments.append([to_be_removed_segments[i][1], video_duration])
         position = reversed_segments[-1][-1]
+
+    if not reversed_segments:
+        reversed_segments.append([position, video_duration])
     return reversed_segments
 
 
